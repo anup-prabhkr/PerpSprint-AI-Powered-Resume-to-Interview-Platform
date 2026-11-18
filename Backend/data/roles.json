@@ -1,0 +1,51 @@
+[
+  {
+    "id": "frontend",
+    "title": "Frontend Developer",
+    "description": "Build responsive, accessible, and performant web user interfaces using modern JavaScript frameworks and libraries. Collaborate with designers and backend engineers to translate wireframes and APIs into interactive, pixel-perfect UIs. Optimize applications for speed, scalability, and cross-browser compatibility. Write clean, maintainable code with comprehensive test coverage.",
+    "requiredSkills": ["javascript", "html", "css", "react", "responsive-design", "git"],
+    "niceToHave": ["typescript", "nextjs", "testing", "webpack", "figma"]
+  },
+  {
+    "id": "backend",
+    "title": "Backend Developer",
+    "description": "Design, build, and maintain scalable server-side applications, RESTful APIs, and microservices. Work with relational and NoSQL databases to model, query, and optimize data storage. Implement authentication, authorization, and security best practices across services. Ensure high availability through monitoring, logging, and performance tuning. Collaborate with frontend teams to define API contracts and data flows.",
+    "requiredSkills": ["python", "sql", "rest", "git", "docker", "postgresql"],
+    "niceToHave": ["redis", "kubernetes", "ci-cd", "graphql", "aws"]
+  },
+  {
+    "id": "fullstack",
+    "title": "Full-Stack Developer",
+    "description": "Develop and maintain end-to-end web applications spanning frontend interfaces and backend services. Translate product requirements into technical designs, selecting appropriate tools and frameworks for each layer. Build reusable components, RESTful APIs, and database schemas while ensuring security and performance. Participate in code reviews, CI/CD pipelines, and agile ceremonies to deliver features iteratively.",
+    "requiredSkills": ["javascript", "react", "nodejs", "sql", "rest", "git", "html", "css"],
+    "niceToHave": ["typescript", "docker", "aws", "mongodb", "ci-cd"]
+  },
+  {
+    "id": "data-analyst",
+    "title": "Data Analyst",
+    "description": "Collect, clean, and analyze large datasets to uncover trends, patterns, and actionable insights that drive business decisions. Build dashboards, reports, and visualizations for stakeholders using BI tools and scripting languages. Write complex SQL queries and automate data pipelines to streamline reporting workflows. Communicate findings clearly to both technical and non-technical audiences through compelling data stories.",
+    "requiredSkills": ["sql", "python", "excel", "data-visualization", "statistics"],
+    "niceToHave": ["power-bi", "tableau", "pandas", "r-language", "google-cloud"]
+  },
+  {
+    "id": "ml-engineer",
+    "title": "Machine Learning Engineer",
+    "description": "Research, design, and deploy machine learning models and pipelines that solve real-world business problems at scale. Preprocess and engineer features from structured and unstructured data sources. Train, evaluate, and optimize models using frameworks like TensorFlow, PyTorch, and scikit-learn. Build production-grade ML systems with monitoring, A/B testing, and automated retraining. Collaborate with data engineers and product teams to integrate models into applications.",
+    "requiredSkills": ["python", "machine-learning", "tensorflow", "scikit-learn", "sql", "numpy", "pandas"],
+    "niceToHave": ["pytorch", "docker", "aws", "deep-learning", "natural-language-processing"]
+  },
+  {
+    "id": "devops",
+    "title": "DevOps Engineer",
+    "description": "Design, implement, and manage CI/CD pipelines, infrastructure-as-code, and cloud environments to accelerate software delivery. Automate provisioning, configuration, and monitoring of production systems using tools like Terraform, Ansible, and Kubernetes. Ensure system reliability, security, and scalability through proactive monitoring, alerting, and incident response. Collaborate with development teams to establish deployment best practices and reduce time-to-market.",
+    "requiredSkills": ["linux", "docker", "kubernetes", "ci-cd", "aws", "terraform", "git"],
+    "niceToHave": ["ansible", "jenkins", "monitoring", "python", "google-cloud"]
+  },
+  {
+    "id": "android",
+    "title": "Android Developer",
+    "description": "Design and build high-quality, native Android applications using Kotlin and the Android SDK. Implement modern architecture patterns such as MVVM and Clean Architecture with Jetpack components. Integrate REST APIs, local databases, and third-party SDKs while optimizing for performance and battery efficiency. Write unit and UI tests, manage releases through the Play Store, and ensure a smooth, accessible user experience across a wide range of devices and OS versions.",
+    "requiredSkills": ["kotlin", "android-sdk", "java", "rest", "git"],
+    "niceToHave": ["jetpack-compose", "flutter", "firebase", "ci-cd", "testing"]
+  }
+]
