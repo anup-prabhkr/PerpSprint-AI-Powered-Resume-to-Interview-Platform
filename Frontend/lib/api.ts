@@ -12,7 +12,14 @@ import type {
   User,
 } from './types';
 
-const BASE = `${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000'}/api`;
+// Tolerate a base URL pasted with a trailing slash or a trailing "/api":
+// both otherwise produce "//api/..." or "/api/api/...", which the API answers
+// with a 404 "Not Found".
+const API_ORIGIN = (process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000')
+  .trim()
+  .replace(/\/+$/, '')
+  .replace(/\/api$/, '');
+const BASE = `${API_ORIGIN}/api`;
 const TOKEN_KEY = 'prepsprint_token';
 
 // Full-page navigation, not fetch: the backend sets the OAuth state cookie on this
