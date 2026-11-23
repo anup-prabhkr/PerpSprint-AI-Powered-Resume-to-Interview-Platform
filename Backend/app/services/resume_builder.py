@@ -38,8 +38,42 @@ _MARGIN = 15
 _CONTENT_W = _PAGE_W - 2 * _MARGIN
 
 
+# The core Helvetica font is Latin-1 only, so typographic characters that the
+# resume data or the templates contain (em dashes, bullets, smart quotes) must be
+# transliterated before drawing. Without this fpdf2 raises and the export fails.
+_TRANSLITERATE = str.maketrans({
+    "\u2014": "-", "\u2013": "-", "\u2018": "'", "\u2019": "'", "\u201c": '"',
+    "\u201d": '"', "\u2022": "-", "\u2026": "...", "\u00a0": " ", "\u2192": "->",
+})
+
+
+def _font_safe(text: str) -> str:
+    """Replace characters the built-in PDF font cannot encode."""
+    translated = text.translate(_TRANSLITERATE)
+    return translated.encode("latin-1", "replace").decode("latin-1")
+
+
 class _ResumePDF(FPDF):
     """Thin wrapper for resume-specific helpers."""
+
+    # Every string passes through one of these two methods, so sanitising here
+    # covers user data and template strings alike.
+    @staticmethod
+    def _clean(args, kwargs):
+        args = list(args)
+        if len(args) > 2 and isinstance(args[2], str):
+            args[2] = _font_safe(args[2])
+        if isinstance(kwargs.get("text"), str):
+            kwargs["text"] = _font_safe(kwargs["text"])
+        return args, kwargs
+
+    def cell(self, *args, **kwargs):
+        args, kwargs = self._clean(args, kwargs)
+        return super().cell(*args, **kwargs)
+
+    def multi_cell(self, *args, **kwargs):
+        args, kwargs = self._clean(args, kwargs)
+        return super().multi_cell(*args, **kwargs)
 
     def _section_title(self, title: str) -> None:
         self.set_font(_FONT, "B", 13)
