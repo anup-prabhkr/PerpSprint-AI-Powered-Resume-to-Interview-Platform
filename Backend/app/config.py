@@ -30,7 +30,16 @@ class Settings(BaseSettings):
 
     @property
     def cors_origin_list(self) -> list[str]:
-        return [o.strip() for o in self.cors_origins.split(",") if o.strip()]
+        origins = [o.strip() for o in self.cors_origins.split(",") if o.strip()]
+        # The app is often opened at 127.0.0.1:3000 instead of localhost:3000.
+        # Both spellings of loopback are accepted so that a local session does
+        # not fail with a misleading "cannot reach the server" error.
+        for origin in list(origins):
+            if "//localhost" in origin:
+                origins.append(origin.replace("//localhost", "//127.0.0.1"))
+            elif "//127.0.0.1" in origin:
+                origins.append(origin.replace("//127.0.0.1", "//localhost"))
+        return list(dict.fromkeys(origins))
 
 
 @lru_cache

@@ -121,6 +121,7 @@ export default function ResumeBuilderPage() {
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [exporting, setExporting] = useState(false);
 
   async function refreshSaved() {
     try {
@@ -198,16 +199,24 @@ export default function ResumeBuilderPage() {
       return;
     }
     setError(null);
+    setExporting(true);
     try {
       const url = await api.downloadResume(resumeId, template);
+      // The anchor has to be in the document for the click to start a download
+      // in every browser, not just Chrome.
       const link = document.createElement('a');
       link.href = url;
       link.download = `${data.personal.name.trim() || 'resume'}.pdf`;
+      link.rel = 'noopener';
+      link.style.display = 'none';
+      document.body.appendChild(link);
       link.click();
+      link.remove();
       setTimeout(() => URL.revokeObjectURL(url), 30_000);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not export the PDF.');
     }
+    setExporting(false);
   }
 
   function load(row: SavedResume) {
@@ -542,8 +551,13 @@ export default function ResumeBuilderPage() {
                   <option value="minimal">Minimal</option>
                 </select>
               </Field>
-              <Button onClick={download} variant="outline" className="rounded-xl">
-                <Download className="h-4 w-4" />Download PDF
+              <Button onClick={download} disabled={exporting} variant="outline" className="rounded-xl">
+                {exporting ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Download className="h-4 w-4" />
+                )}
+                {exporting ? 'Preparing PDF…' : 'Download PDF'}
               </Button>
               {!resumeId ? <p className="text-xs text-muted-foreground">Save the resume first to enable export.</p> : null}
             </CardContent>

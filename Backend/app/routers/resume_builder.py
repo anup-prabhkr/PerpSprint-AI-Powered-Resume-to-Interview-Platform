@@ -1,3 +1,5 @@
+import logging
+
 from fastapi import APIRouter, Depends, File, Query, UploadFile
 from fastapi.responses import Response
 from sqlalchemy import select
@@ -13,6 +15,7 @@ from app.services import resume_builder as resume_builder_service
 from app.services.resume_parser import extract_resume_text
 
 router = APIRouter(prefix="/resumes", tags=["resumes"])
+logger = logging.getLogger(__name__)
 
 
 def _to_out(row: Resume) -> ResumeOut:
@@ -104,7 +107,16 @@ def export_resume(
 ):
     row = _get_owned(db, user, resume_id)
     data = ResumeData.model_validate(row.data)
-    pdf_bytes = resume_builder_service.export_pdf(data, template)
+    try:
+        pdf_bytes = resume_builder_service.export_pdf(data, template)
+    except Exception as exc:  # noqa: BLE001 - reported to the user as a 500
+        # An unhandled error here is answered by Starlette's outermost error
+        # middleware, whose response carries no CORS headers; the browser then
+        # reports a network failure instead of the real problem.
+        logger.exception("PDF export failed for resume %s", resume_id)
+        raise AppError(
+            "The PDF could not be generated for this resume. Please try again.", 500
+        ) from exc
 
     filename = f"resume_{resume_id}.pdf"
     return Response(
